@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DevKits - Snippets de Código</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <!-- Font Awesome for Icons -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <style>
+      /* Estilo base para a página */
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #111827; /* bg-gray-900 */
+      }
+
+      /* Estilo para o componente de Login Neon ... (código existente omitido por brevidade) */
+      .neon-login-box {
+        position: relative;
+        background: rgba(0, 0, 0, 0.75);
+        border-radius: 10px;
+        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+      }
+      .neon-login-box .user-box {
+        position: relative;
+      }
+      .neon-login-box .user-box input {
+        width: 100%;
+        padding: 10px 0;
+        font-size: 16px;
+        color: #fff;
+        margin-bottom: 30px;
+        border: none;
+        border-bottom: 1px solid #fff;
+        outline: none;
+        background: transparent;
+      }
+      .neon-login-box .user-box label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 10px 0;
+        font-size: 16px;
+        color: #fff;
+        pointer-events: none;
+        transition: 0.5s;
+      }
+      .neon-login-box .user-box input:focus ~ label,
+      .neon-login-box .user-box input:valid ~ label {
+        top: -20px;
+        left: 0;
+        color: #03e9f4;
+        font-size: 12px;
+      }
+      .neon-login-box form a {
+        position: relative;
+        display: inline-block;
+        padding: 10px 20px;
+        color: #03e9f4;
+        font-size: 16px;
+        text-decoration: none;
+        text-transform: uppercase;
+        overflow: hidden;
+        transition: 0.5s;
+        margin-top: 40px;
+        letter-spacing: 4px;
+      }
+      .neon-login-box a:hover {
+        background: #03e9f4;
+        color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 5px #03e9f4, 0 0 25px #03e9f4, 0 0 50px #03e9f4,
+          0 0 100px #03e9f4;
+      }
+
+      /* Estilo para o botão animado */
+      .animated-button {
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+        transform: translateY(0px);
+      }
+      .animated-button:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 15px 25px rgba(0, 0, 0, 0.25);
+      }
+
+      /* Estilo para o Card Glassmorphism */
+      .glass-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border-radius: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      }
+
+      /* Estilo para o Texto com Gradiente Animado */
+      .animated-gradient-text {
+        background: linear-gradient(
+          90deg,
+          #f87171,
+          #fb923c,
+          #facc15,
+          #a3e635,
+          #4ade80,
+          #38bdf8,
+          #818cf8,
+          #c084fc,
+          #f87171
+        );
+        background-size: 200% auto;
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: gradient-flow 4s linear infinite;
+      }
+
+      @keyframes gradient-flow {
+        to {
+          background-position: 200% center;
+        }
+      }
+
+      /* Estilo para o Loading Spinner */
+      .loader {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        border: 6px solid #4a5568; /* gray-700 */
+        border-top-color: #60a5fa; /* blue-400 */
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* Estilo para o Accordion */
+      .accordion-button::after {
+        content: "+";
+        font-size: 1.5rem;
+        font-weight: bold;
+        transition: transform 0.3s ease;
+      }
+      .accordion-button.active::after {
+        transform: rotate(45deg);
+      }
+      .accordion-panel {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.3s ease-out;
+      }
+
+      /* Estilo para o fundo Aurora */
+      .aurora-background {
+        position: relative;
+        overflow: hidden;
+      }
+      .aurora-background::before,
+      .aurora-background::after {
+        content: "";
+        position: absolute;
+        width: 800px;
+        height: 800px;
+        border-radius: 50%;
+        opacity: 0.3;
+        mix-blend-mode: screen;
+        animation: aurora-flow 15s infinite alternate;
+        filter: blur(100px);
+      }
+      .aurora-background::before {
+        background: radial-gradient(circle, #5e2bff, transparent 60%);
+        top: -300px;
+        left: -200px;
+      }
+      .aurora-background::after {
+        background: radial-gradient(circle, #02bffd, transparent 60%);
+        bottom: -300px;
+        right: -200px;
+        animation-delay: -7.5s;
+      }
+      @keyframes aurora-flow {
+        0% {
+          transform: translateX(0) translateY(0) rotate(0deg);
+        }
+        100% {
+          transform: translateX(100px) translateY(50px) rotate(180deg);
+        }
+      }
+
+      /* Estilo para Parallax */
+      .parallax-section {
+        background-image: url("https://placehold.co/1920x1080/1a202c/ffffff?text=Fundo");
+        min-height: 300px;
+        background-attachment: fixed;
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      /* Estilo para Efeito de Digitação */
+      .typewriter-text {
+        border-right: 0.15em solid #60a5fa; /* A cor do cursor */
+        white-space: nowrap;
+        overflow: hidden;
+        animation: typing 3.5s steps(40, end),
+          blink-caret 0.75s step-end infinite;
+      }
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+        to {
+          width: 100%;
+        }
+      }
+      @keyframes blink-caret {
+        from,
+        to {
+          border-color: transparent;
+        }
+        50% {
+          border-color: #60a5fa;
+        }
+      }
+
+      /* Card 3D Hover */
+      .card-3d-container {
+        perspective: 1000px;
+      }
+      .card-3d {
+        transition: transform 0.5s;
+        transform-style: preserve-3d;
+      }
+
+      /* Toast Notification */
+      #toast-container {
+        position: fixed;
+        top: 1.25rem;
+        right: 1.25rem;
+        z-index: 50;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      .toast {
+        transform: translateX(120%);
+        transition: transform 0.5s ease;
+      }
+      .toast.show {
+        transform: translateX(0);
+      }
+    </style>
+  </head>
+  <body class="bg-gray-900 text-white">
+    <!-- Cabeçalho -->
+    <header class="text-center py-12 px-4">
+      <h1
+        class="text-5xl font-bold mb-2 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-teal-300"
+      >
+        DevKits
+      </h1>
+      <p class="text-lg text-gray-400">
+        Uma wiki com componentes e snippets de código prontos para usar.
+      </p>
+    </header>
+
+    <!-- Grade de Componentes -->
+    <main class="container mx-auto px-4 py-8">
+      <!-- Categoria: Elementos de UI -->
+      <h2
+        class="text-3xl font-bold mb-6 text-teal-300 border-b-2 border-gray-700 pb-2"
+      >
+        Elementos de UI
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Tela de Login Neon</h3>
+          </div>
+          <div
+            class="px-6 py-10 bg-gradient-to-br from-gray-900 to-black flex-grow flex items-center justify-center"
+          >
+            <div class="neon-login-box p-8 w-full max-w-sm">
+              <form>
+                <div class="user-box">
+                  <input type="text" name="" required="" /><label
+                    >Usuário</label
+                  >
+                </div>
+                <div class="user-box">
+                  <input type="password" name="" required="" /><label
+                    >Senha</label
+                  >
+                </div>
+                <a href="#">Entrar</a>
+              </form>
+            </div>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('loginCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+        >
+          <div class="p-6"><h3 class="text-xl font-bold">Cronômetro</h3></div>
+          <div
+            class="px-6 py-10 bg-gray-900 flex-grow flex items-center justify-center"
+          >
+            <div class="text-center">
+              <p id="stopwatch-display" class="text-6xl font-mono mb-6">
+                00:00:00
+              </p>
+              <div class="space-x-4">
+                <button
+                  id="startBtn"
+                  class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-6 rounded-lg transition"
+                >
+                  Iniciar</button
+                ><button
+                  id="stopBtn"
+                  class="bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-6 rounded-lg transition"
+                >
+                  Parar</button
+                ><button
+                  id="resetBtn"
+                  class="bg-gray-500 hover:bg-gray-600 text-white font-semibold py-2 px-6 rounded-lg transition"
+                >
+                  Resetar
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('stopwatchCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Fonte Pixelada</h3>
+          </div>
+          <div
+            class="px-6 py-10 bg-gray-900 flex-grow flex items-center justify-center"
+          >
+            <div class="text-center">
+              <p
+                style="font-family: 'Press Start 2P', cursive"
+                class="text-3xl text-yellow-400"
+              >
+                GAME OVER
+              </p>
+              <p
+                style="font-family: 'Press Start 2P', cursive"
+                class="text-lg text-white mt-4"
+              >
+                Insert Coin
+              </p>
+            </div>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('fontCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Botão com Sombra</h3>
+          </div>
+          <div
+            class="px-6 py-10 bg-gray-900 flex-grow flex items-center justify-center"
+          >
+            <button
+              class="animated-button bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-bold py-4 px-8 rounded-xl text-lg"
+            >
+              Passe o mouse
+            </button>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('animatedButtonCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Card de Perfil</h3>
+          </div>
+          <div
+            class="px-6 py-10 bg-gray-900 flex-grow flex items-center justify-center"
+          >
+            <div
+              class="bg-gray-800 shadow-lg rounded-2xl p-6 w-full max-w-xs text-center"
+            >
+              <img
+                class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-blue-400"
+                src="https://placehold.co/100x100/e2e8f0/1a202c?text=AV"
+                alt="Avatar"
+              />
+              <h4 class="text-xl font-bold">Jane Doe</h4>
+              <p class="text-blue-400">Frontend Developer</p>
+              <div class="flex justify-center space-x-4 mt-4">
+                <a href="#" class="text-gray-400 hover:text-white transition"
+                  ><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M12 0C5.373 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.91 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.565 21.795 24 17.3 24 12c0-6.627-5.373-12-12-12z"
+                    /></svg></a
+                ><a href="#" class="text-gray-400 hover:text-white transition"
+                  ><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
+                    <path
+                      d="M22.46 6c-.77.35-1.6.58-2.46.67.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.27 0 .34.04.67.11.98-3.56-.18-6.72-1.88-8.83-4.47-.37.63-.58 1.37-.58 2.15 0 1.48.75 2.79 1.9 3.55-.7-.02-1.37-.22-1.95-.55v.05c0 2.07 1.47 3.8 3.42 4.19-.36.1-.73.15-1.12.15-.27 0-.54-.03-.8-.08.54 1.7 2.1 2.93 3.96 2.96-1.46 1.14-3.3 1.82-5.3 1.82-.34 0-.68-.02-1.02-.06C3.43 18.9 5.66 19.6 8.01 19.6c7.2 0 11.14-5.96 11.14-11.14v-.5c.76-.55 1.43-1.23 1.96-2.02z"
+                    /></svg
+                ></a>
+              </div>
+            </div>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('profileCardCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Toggle Switch Animado</h3>
+          </div>
+          <div
+            class="px-6 py-10 bg-gray-900 flex-grow flex items-center justify-center"
+          >
+            <label class="relative inline-flex items-center cursor-pointer"
+              ><input type="checkbox" value="" class="sr-only peer" />
+              <div
+                class="w-14 h-7 bg-gray-600 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"
+              ></div>
+              <span class="ml-3 text-sm font-medium">Modo Noturno</span></label
+            >
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('toggleCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categoria: Feedback & Sobreposições -->
+      <h2
+        class="text-3xl font-bold mb-6 text-teal-300 border-b-2 border-gray-700 pb-2"
+      >
+        Feedback & Sobreposições
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Modal de Confirmação</h3>
+          </div>
+          <div
+            class="px-6 py-10 bg-gray-900 flex-grow flex items-center justify-center"
+          >
+            <button
+              id="openModalBtn"
+              class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              Abrir Modal
+            </button>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('modalCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Notificação (Toast)</h3>
+          </div>
+          <div
+            class="px-6 py-10 bg-gray-900 flex-grow flex items-center justify-center"
+          >
+            <button
+              id="showToastBtn"
+              class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              Mostrar Toast
+            </button>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('toastCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Accordion (FAQ)</h3>
+          </div>
+          <div class="px-6 py-10 bg-gray-900 flex-grow">
+            <div class="space-y-2">
+              <div class="bg-gray-700 rounded-lg">
+                <button
+                  class="accordion-button flex justify-between items-center w-full p-4 text-left"
+                >
+                  O que é HTML?
+                </button>
+                <div class="accordion-panel p-4 pt-0">
+                  <p>
+                    HTML (HyperText Markup Language) é a linguagem de marcação
+                    padrão para criar páginas da web.
+                  </p>
+                </div>
+              </div>
+              <div class="bg-gray-700 rounded-lg">
+                <button
+                  class="accordion-button flex justify-between items-center w-full p-4 text-left"
+                >
+                  O que é CSS?
+                </button>
+                <div class="accordion-panel p-4 pt-0">
+                  <p>
+                    CSS (Cascading Style Sheets) é uma linguagem usada para
+                    descrever a apresentação de um documento escrito em HTML.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('accordionCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categoria: Layouts & Efeitos Visuais -->
+      <h2
+        class="text-3xl font-bold mb-6 text-teal-300 border-b-2 border-gray-700 pb-2"
+      >
+        Layouts & Efeitos Visuais
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Card Glassmorphism</h3>
+          </div>
+          <div
+            class="px-6 py-10 bg-gradient-to-br from-purple-800 via-violet-900 to-blue-800 flex-grow flex items-center justify-center"
+          >
+            <div class="glass-card p-6 w-full max-w-sm">
+              <h4 class="text-white text-2xl font-bold mb-2">Título do Card</h4>
+              <p class="text-gray-200">
+                Este efeito de vidro fosco funciona melhor sobre um fundo
+                colorido ou com uma imagem.
+              </p>
+            </div>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('glassmorphismCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Card 3D com Hover</h3>
+          </div>
+          <div
+            class="px-6 py-10 bg-gray-900 flex-grow flex items-center justify-center card-3d-container"
+          >
+            <div
+              class="card-3d w-full max-w-xs bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl shadow-lg p-8"
+            >
+              <div class="text-white text-2xl font-bold">Mova o mouse</div>
+            </div>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('card3dCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Texto com Gradiente Animado</h3>
+          </div>
+          <div
+            class="px-6 py-10 bg-gray-900 flex-grow flex items-center justify-center"
+          >
+            <h2
+              class="animated-gradient-text text-5xl font-extrabold text-center"
+            >
+              Frontend Rocks!
+            </h2>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('animatedGradientTextCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Efeito de Digitação</h3>
+          </div>
+          <div
+            class="px-6 py-10 bg-gray-900 flex-grow flex items-center justify-center"
+          >
+            <p class="typewriter-text font-mono text-2xl">
+              Olá, mundo! Eu sou um desenvolvedor.
+            </p>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('typewriterCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col lg:col-span-2"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Bento Grid Layout</h3>
+          </div>
+          <div class="p-6 bg-gray-900 flex-grow">
+            <div
+              class="grid grid-cols-3 grid-rows-3 gap-4 h-full min-h-[300px]"
+            >
+              <div
+                class="col-span-2 row-span-2 bg-gray-700 rounded-lg p-4 flex items-center justify-center"
+              >
+                Item 1
+              </div>
+              <div
+                class="bg-gray-700 rounded-lg p-4 flex items-center justify-center"
+              >
+                Item 2
+              </div>
+              <div
+                class="bg-gray-700 rounded-lg p-4 flex items-center justify-center"
+              >
+                Item 3
+              </div>
+              <div
+                class="col-span-3 bg-gray-700 rounded-lg p-4 flex items-center justify-center"
+              >
+                Item 4
+              </div>
+            </div>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('bentoGridCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col"
+        >
+          <div class="p-6"><h3 class="text-xl font-bold">Fundo Aurora</h3></div>
+          <div
+            class="p-6 bg-gray-900 flex-grow aurora-background flex items-center justify-center"
+          >
+            <p class="text-2xl font-bold z-10">Conteúdo aqui</p>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('auroraCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col lg:col-span-3"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Efeito Parallax</h3>
+          </div>
+          <div class="bg-gray-900 flex-grow">
+            <div class="parallax-section flex items-center justify-center">
+              <h2
+                class="text-3xl font-bold bg-black bg-opacity-50 px-4 py-2 rounded"
+              >
+                Role para ver o efeito
+              </h2>
+            </div>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('parallaxCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Categoria: Navegação -->
+      <h2
+        class="text-3xl font-bold mb-6 text-teal-300 border-b-2 border-gray-700 pb-2"
+      >
+        Navegação e Exibição de Dados
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col lg:col-span-3"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Navbar Responsiva</h3>
+          </div>
+          <div class="bg-gray-900 flex-grow">
+            <nav class="bg-gray-800 p-4">
+              <div class="container mx-auto flex justify-between items-center">
+                <a href="#" class="text-white text-xl font-bold">Logo</a>
+                <div class="hidden md:flex space-x-4">
+                  <a href="#" class="text-gray-300 hover:text-white">Início</a
+                  ><a href="#" class="text-gray-300 hover:text-white">Sobre</a
+                  ><a href="#" class="text-gray-300 hover:text-white"
+                    >Contato</a
+                  >
+                </div>
+                <button
+                  id="mobile-menu-button"
+                  class="md:hidden text-gray-300 hover:text-white"
+                >
+                  <i class="fas fa-bars fa-2x"></i>
+                </button>
+              </div>
+              <div id="mobile-menu" class="hidden md:hidden mt-4">
+                <a href="#" class="block text-gray-300 hover:text-white py-2"
+                  >Início</a
+                ><a href="#" class="block text-gray-300 hover:text-white py-2"
+                  >Sobre</a
+                ><a href="#" class="block text-gray-300 hover:text-white py-2"
+                  >Contato</a
+                >
+              </div>
+            </nav>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('navbarCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col lg:col-span-3"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Planos de Preços</h3>
+          </div>
+          <div
+            class="p-6 bg-gray-900 flex-grow flex flex-wrap gap-8 justify-center items-start"
+          >
+            <div
+              class="border border-gray-700 rounded-lg p-6 w-full max-w-sm text-center bg-gray-800"
+            >
+              <h4 class="text-lg font-semibold">Básico</h4>
+              <p class="text-4xl font-bold my-4">
+                R$19<span class="text-base font-normal">/mês</span>
+              </p>
+              <ul class="space-y-2 mb-6 text-gray-400">
+                <li>10GB de Armazenamento</li>
+                <li>1 Usuário</li>
+                <li>Suporte por Email</li>
+              </ul>
+              <button
+                class="w-full bg-gray-600 text-white font-bold py-2 px-4 rounded-lg"
+              >
+                Começar
+              </button>
+            </div>
+            <div
+              class="border border-blue-500 rounded-lg p-6 w-full max-w-sm text-center bg-gray-800 relative ring-2 ring-blue-500"
+            >
+              <span
+                class="absolute top-0 -translate-y-1/2 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full"
+                >POPULAR</span
+              >
+              <h4 class="text-lg font-semibold text-blue-400">Pro</h4>
+              <p class="text-4xl font-bold my-4">
+                R$49<span class="text-base font-normal">/mês</span>
+              </p>
+              <ul class="space-y-2 mb-6 text-gray-400">
+                <li>50GB de Armazenamento</li>
+                <li>5 Usuários</li>
+                <li>Suporte Prioritário</li>
+              </ul>
+              <button
+                class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg"
+              >
+                Assinar Agora
+              </button>
+            </div>
+            <div
+              class="border border-gray-700 rounded-lg p-6 w-full max-w-sm text-center bg-gray-800"
+            >
+              <h4 class="text-lg font-semibold">Empresa</h4>
+              <p class="text-4xl font-bold my-4">
+                R$99<span class="text-base font-normal">/mês</span>
+              </p>
+              <ul class="space-y-2 mb-6 text-gray-400">
+                <li>200GB de Armazenamento</li>
+                <li>Usuários Ilimitados</li>
+                <li>Suporte 24/7</li>
+              </ul>
+              <button
+                class="w-full bg-gray-600 text-white font-bold py-2 px-4 rounded-lg"
+              >
+                Contato
+              </button>
+            </div>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('pricingTiersCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+        <div
+          class="bg-gray-800 rounded-xl overflow-hidden shadow-lg flex flex-col lg:col-span-3"
+        >
+          <div class="p-6">
+            <h3 class="text-xl font-bold">Carrossel de Imagens</h3>
+          </div>
+          <div class="p-6 bg-gray-900 flex-grow">
+            <div
+              class="relative w-full max-w-2xl mx-auto"
+              id="carousel-container"
+            >
+              <div class="overflow-hidden relative h-64 rounded-lg">
+                <div
+                  class="flex transition-transform duration-500 ease-in-out"
+                  id="carousel-slides"
+                >
+                  <div
+                    class="flex-shrink-0 w-full h-full bg-cover bg-center"
+                    style="
+                      background-image: url('https://placehold.co/800x400/3b82f6/ffffff?text=Slide+1');
+                    "
+                  ></div>
+                  <div
+                    class="flex-shrink-0 w-full h-full bg-cover bg-center"
+                    style="
+                      background-image: url('https://placehold.co/800x400/10b981/ffffff?text=Slide+2');
+                    "
+                  ></div>
+                  <div
+                    class="flex-shrink-0 w-full h-full bg-cover bg-center"
+                    style="
+                      background-image: url('https://placehold.co/800x400/8b5cf6/ffffff?text=Slide+3');
+                    "
+                  ></div>
+                </div>
+              </div>
+              <button
+                id="carousel-prev"
+                class="absolute top-1/2 left-2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full"
+              >
+                <i class="fas fa-chevron-left"></i>
+              </button>
+              <button
+                id="carousel-next"
+                class="absolute top-1/2 right-2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full"
+              >
+                <i class="fas fa-chevron-right"></i>
+              </button>
+            </div>
+          </div>
+          <div class="p-4 bg-gray-700">
+            <button
+              onclick="copyCode('carouselCode', this)"
+              class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-lg"
+            >
+              Copiar o Código
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Modal Container -->
+    <div
+      id="modal-backdrop"
+      class="fixed inset-0 bg-black bg-opacity-70 z-40 hidden"
+    ></div>
+    <div
+      id="modal"
+      class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-800 rounded-lg shadow-xl p-6 z-50 hidden w-full max-w-md"
+    >
+      <h3 class="text-xl font-bold mb-4">Ação de Confirmação</h3>
+      <p class="text-gray-300 mb-6">
+        Você tem certeza de que deseja prosseguir? Esta ação não pode ser
+        desfeita.
+      </p>
+      <div class="flex justify-end space-x-4">
+        <button
+          id="closeModalBtn"
+          class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg"
+        >
+          Cancelar
+        </button>
+        <button
+          class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg"
+        >
+          Confirmar
+        </button>
+      </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Códigos para Copiar (ocultos) -->
+    <div class="hidden">
+      <pre id="loginCode"><!-- ... O código anterior continua aqui ... --></pre>
+      <pre
+        id="stopwatchCode"
+      ><!-- ... O código anterior continua aqui ... --></pre>
+      <pre id="fontCode"><!-- ... O código anterior continua aqui ... --></pre>
+      <pre
+        id="animatedButtonCode"
+      ><!-- ... O código anterior continua aqui ... --></pre>
+      <pre
+        id="glassmorphismCode"
+      ><!-- ... O código anterior continua aqui ... --></pre>
+      <pre
+        id="animatedGradientTextCode"
+      ><!-- ... O código anterior continua aqui ... --></pre>
+      <pre
+        id="loadingSpinnerCode"
+      ><!-- ... O código anterior continua aqui ... --></pre>
+      <pre
+        id="profileCardCode"
+      ><!-- ... O código anterior continua aqui ... --></pre>
+      <pre
+        id="accordionCode"
+      ><!-- ... O código anterior continua aqui ... --></pre>
+      <pre
+        id="toggleCode"
+      ><!-- ... O código anterior continua aqui ... --></pre>
+      <pre
+        id="bentoGridCode"
+      ><!-- ... O código anterior continua aqui ... --></pre>
+      <pre
+        id="auroraCode"
+      ><!-- ... O código anterior continua aqui ... --></pre>
+      <pre
+        id="parallaxCode"
+      ><!-- ... O código anterior continua aqui ... --></pre>
+
+      <pre id="navbarCode">
+&lt;!-- Requer Font Awesome para o ícone do menu --&gt;
+&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"&gt;
+
+&lt;!-- HTML da Navbar --&gt;
+&lt;nav class="bg-gray-800 p-4"&gt;
+    &lt;div class="container mx-auto flex justify-between items-center"&gt;
+        &lt;a href="#" class="text-white text-xl font-bold"&gt;Logo&lt;/a&gt;
+        &lt;div class="hidden md:flex space-x-4"&gt;
+            &lt;a href="#" class="text-gray-300 hover:text-white"&gt;Início&lt;/a&gt;
+            &lt;a href="#" class="text-gray-300 hover:text-white"&gt;Sobre&lt;/a&gt;
+            &lt;a href="#" class="text-gray-300 hover:text-white"&gt;Contato&lt;/a&gt;
+        &lt;/div&gt;
+        &lt;button id="mobile-menu-button" class="md:hidden text-gray-300 hover:text-white"&gt;
+            &lt;i class="fas fa-bars fa-2x"&gt;&lt;/i&gt;
+        &lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div id="mobile-menu" class="hidden md:hidden mt-4"&gt;
+        &lt;a href="#" class="block text-gray-300 hover:text-white py-2"&gt;Início&lt;/a&gt;
+        &lt;a href="#" class="block text-gray-300 hover:text-white py-2"&gt;Sobre&lt;/a&gt;
+        &lt;a href="#" class="block text-gray-300 hover:text-white py-2"&gt;Contato&lt;/a&gt;
+    &lt;/div&gt;
+&lt;/nav&gt;
+
+&lt;!-- JavaScript da Navbar --&gt;
+&lt;script&gt;
+    const mobileMenuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    mobileMenuButton.addEventListener('click', () => {
+        mobileMenu.classList.toggle('hidden');
+    });
+&lt;/script&gt;
+        </pre
+      >
+
+      <pre id="modalCode">
+&lt;!-- HTML do Modal (coloque no final do seu body) --&gt;
+&lt;div id="modal-backdrop" class="fixed inset-0 bg-black bg-opacity-70 z-40 hidden"&gt;&lt;/div&gt;
+&lt;div id="modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-800 rounded-lg shadow-xl p-6 z-50 hidden w-full max-w-md"&gt;
+    &lt;h3 class="text-xl font-bold mb-4"&gt;Ação de Confirmação&lt;/h3&gt;
+    &lt;p class="text-gray-300 mb-6"&gt;Você tem certeza de que deseja prosseguir? Esta ação não pode ser desfeita.&lt;/p&gt;
+    &lt;div class="flex justify-end space-x-4"&gt;
+        &lt;button id="closeModalBtn" class="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg"&gt;Cancelar&lt;/button&gt;
+        &lt;button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg"&gt;Confirmar&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Exemplo de botão para abrir o modal --&gt;
+&lt;button id="openModalBtn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-bold py-2 px-4 rounded-lg"&gt;Abrir Modal&lt;/button&gt;
+
+&lt;!-- JavaScript do Modal --&gt;
+&lt;script&gt;
+    const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const modalBackdrop = document.getElementById('modal-backdrop');
+    const modal = document.getElementById('modal');
+
+    const openModal = () => {
+        modalBackdrop.classList.remove('hidden');
+        modal.classList.remove('hidden');
+    };
+
+    const closeModal = () => {
+        modalBackdrop.classList.add('hidden');
+        modal.classList.add('hidden');
+    };
+
+    openModalBtn.addEventListener('click', openModal);
+    closeModalBtn.addEventListener('click', closeModal);
+    modalBackdrop.addEventListener('click', closeModal);
+&lt;/script&gt;
+        </pre
+      >
+
+      <pre id="toastCode">
+&lt;!-- CSS do Toast --&gt;
+&lt;style&gt;
+    #toast-container {
+        position: fixed;
+        top: 1.25rem;
+        right: 1.25rem;
+        z-index: 50;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+    .toast {
+        transform: translateX(120%);
+        transition: transform 0.5s ease;
+    }
+    .toast.show {
+        transform: translateX(0);
+    }
+&lt;/style&gt;
+
+&lt;!-- HTML do Container (coloque no final do seu body) --&gt;
+&lt;div id="toast-container"&gt;&lt;/div&gt;
+
+&lt;!-- Exemplo de botão para mostrar o toast --&gt;
+&lt;button id="showToastBtn" class="bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 px-4 rounded-lg"&gt;Mostrar Toast&lt;/button&gt;
+
+&lt;!-- JavaScript do Toast --&gt;
+&lt;script&gt;
+    const toastContainer = document.getElementById('toast-container');
+    const showToastBtn = document.getElementById('showToastBtn');
+
+    function showToast(message, duration = 3000) {
+        const toast = document.createElement('div');
+        toast.className = 'toast bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg';
+        toast.textContent = message;
+        toastContainer.appendChild(toast);
+
+        // Animação de entrada
+        setTimeout(() => {
+            toast.classList.add('show');
+        }, 10);
+
+        // Animação de saída
+        setTimeout(() => {
+            toast.classList.remove('show');
+            // Remove o elemento após a transição
+            toast.addEventListener('transitionend', () => toast.remove());
+        }, duration);
+    }
+
+    showToastBtn.addEventListener('click', () => {
+        showToast('Operação realizada com sucesso!');
+    });
+&lt;/script&gt;
+        </pre
+      >
+
+      <pre id="typewriterCode">
+&lt;!-- CSS do Efeito --&gt;
+&lt;style&gt;
+    .typewriter-text {
+        border-right: .15em solid #60a5fa; /* Cor do cursor */
+        white-space: nowrap;
+        overflow: hidden;
+        /* Altere a duração e os passos conforme o tamanho do texto */
+        animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+    }
+    @keyframes typing {
+        from { width: 0 }
+        to { width: 100% }
+    }
+    @keyframes blink-caret {
+        from, to { border-color: transparent }
+        50% { border-color: #60a5fa; }
+    }
+&lt;/style&gt;
+
+&lt;!-- HTML do Texto --&gt;
+&lt;p class="typewriter-text font-mono text-2xl"&gt;Olá, mundo! Eu sou um desenvolvedor.&lt;/p&gt;
+        </pre
+      >
+
+      <pre id="card3dCode">
+&lt;!-- CSS do Card --&gt;
+&lt;style&gt;
+    .card-3d-container {
+        perspective: 1000px;
+    }
+    .card-3d {
+        transition: transform 0.5s;
+        transform-style: preserve-3d;
+    }
+&lt;/style&gt;
+
+&lt;!-- HTML do Card --&gt;
+&lt;div class="card-3d-container"&gt;
+    &lt;div class="card-3d w-full max-w-xs bg-gradient-to-br from-blue-500 to-cyan-400 rounded-xl shadow-lg p-8"&gt;
+        &lt;div class="text-white text-2xl font-bold"&gt;Mova o mouse&lt;/div&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- JavaScript do Card --&gt;
+&lt;script&gt;
+    document.querySelectorAll('.card-3d-container').forEach(container => {
+        const card = container.querySelector('.card-3d');
+        container.addEventListener('mousemove', (e) => {
+            const { left, top, width, height } = container.getBoundingClientRect();
+            const x = e.clientX - left;
+            const y = e.clientY - top;
+            const rotateX = (y / height - 0.5) * -30; // Ajuste a intensidade
+            const rotateY = (x / width - 0.5) * 30; // Ajuste a intensidade
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        container.addEventListener('mouseleave', () => {
+            card.style.transform = 'rotateX(0) rotateY(0)';
+        });
+    });
+&lt;/script&gt;
+        </pre
+      >
+
+      <pre id="pricingTiersCode">
+&lt;!-- HTML dos Planos (Usa Tailwind CSS) --&gt;
+&lt;div class="flex flex-wrap gap-8 justify-center items-start"&gt;
+    &lt;!-- Plano Básico --&gt;
+    &lt;div class="border border-gray-700 rounded-lg p-6 w-full max-w-sm text-center bg-gray-800"&gt;
+        &lt;h4 class="text-lg font-semibold"&gt;Básico&lt;/h4&gt;
+        &lt;p class="text-4xl font-bold my-4"&gt;R$19&lt;span class="text-base font-normal"&gt;/mês&lt;/span&gt;&lt;/p&gt;
+        &lt;ul class="space-y-2 mb-6 text-gray-400"&gt;
+            &lt;li&gt;10GB de Armazenamento&lt;/li&gt;
+            &lt;li&gt;1 Usuário&lt;/li&gt;
+            &lt;li&gt;Suporte por Email&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;button class="w-full bg-gray-600 text-white font-bold py-2 px-4 rounded-lg"&gt;Começar&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;!-- Plano Pro (Popular) --&gt;
+    &lt;div class="border border-blue-500 rounded-lg p-6 w-full max-w-sm text-center bg-gray-800 relative ring-2 ring-blue-500"&gt;
+        &lt;span class="absolute top-0 -translate-y-1/2 bg-blue-500 text-white text-xs font-bold px-3 py-1 rounded-full"&gt;POPULAR&lt;/span&gt;
+        &lt;h4 class="text-lg font-semibold text-blue-400"&gt;Pro&lt;/h4&gt;
+        &lt;p class="text-4xl font-bold my-4"&gt;R$49&lt;span class="text-base font-normal"&gt;/mês&lt;/span&gt;&lt;/p&gt;
+        &lt;ul class="space-y-2 mb-6 text-gray-400"&gt;
+            &lt;li&gt;50GB de Armazenamento&lt;/li&gt;
+            &lt;li&gt;5 Usuários&lt;/li&gt;
+            &lt;li&gt;Suporte Prioritário&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;button class="w-full bg-blue-500 text-white font-bold py-2 px-4 rounded-lg"&gt;Assinar Agora&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;!-- Plano Empresa --&gt;
+    &lt;div class="border border-gray-700 rounded-lg p-6 w-full max-w-sm text-center bg-gray-800"&gt;
+        &lt;h4 class="text-lg font-semibold"&gt;Empresa&lt;/h4&gt;
+        &lt;p class="text-4xl font-bold my-4"&gt;R$99&lt;span class="text-base font-normal"&gt;/mês&lt;/span&gt;&lt;/p&gt;
+        &lt;ul class="space-y-2 mb-6 text-gray-400"&gt;
+            &lt;li&gt;200GB de Armazenamento&lt;/li&gt;
+            &lt;li&gt;Usuários Ilimitados&lt;/li&gt;
+            &lt;li&gt;Suporte 24/7&lt;/li&gt;
+        &lt;/ul&gt;
+        &lt;button class="w-full bg-gray-600 text-white font-bold py-2 px-4 rounded-lg"&gt;Contato&lt;/button&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+        </pre
+      >
+
+      <pre id="carouselCode">
+&lt;!-- Requer Font Awesome para os ícones --&gt;
+&lt;link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"&gt;
+
+&lt;!-- HTML do Carrossel --&gt;
+&lt;div class="relative w-full max-w-2xl mx-auto" id="carousel-container"&gt;
+    &lt;div class="overflow-hidden relative h-64 rounded-lg"&gt;
+        &lt;div class="flex transition-transform duration-500 ease-in-out" id="carousel-slides"&gt;
+            &lt;!-- Slides --&gt;
+            &lt;div class="flex-shrink-0 w-full h-full bg-cover bg-center" style="background-image: url('https://placehold.co/800x400/3b82f6/ffffff?text=Slide+1')"&gt;&lt;/div&gt;
+            &lt;div class="flex-shrink-0 w-full h-full bg-cover bg-center" style="background-image: url('https://placehold.co/800x400/10b981/ffffff?text=Slide+2')"&gt;&lt;/div&gt;
+            &lt;div class="flex-shrink-0 w-full h-full bg-cover bg-center" style="background-image: url('https://placehold.co/800x400/8b5cf6/ffffff?text=Slide+3')"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;button id="carousel-prev" class="absolute top-1/2 left-2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full"&gt;&lt;i class="fas fa-chevron-left"&gt;&lt;/i&gt;&lt;/button&gt;
+    &lt;button id="carousel-next" class="absolute top-1/2 right-2 -translate-y-1/2 bg-black/50 text-white p-2 rounded-full"&gt;&lt;i class="fas fa-chevron-right"&gt;&lt;/i&gt;&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;!-- JavaScript do Carrossel --&gt;
+&lt;script&gt;
+    const slides = document.getElementById('carousel-slides');
+    const prevButton = document.getElementById('carousel-prev');
+    const nextButton = document.getElementById('carousel-next');
+    const slideCount = slides.children.length;
+    let currentIndex = 0;
+
+    function goToSlide(index) {
+        if (index < 0) {
+            index = slideCount - 1;
+        } else if (index >= slideCount) {
+            index = 0;
+        }
+        slides.style.transform = `translateX(-${index * 100}%)`;
+        currentIndex = index;
+    }
+
+    prevButton.addEventListener('click', () => goToSlide(currentIndex - 1));
+    nextButton.addEventListener('click', () => goToSlide(currentIndex + 1));
+&lt;/script&gt;
+        </pre
+      >
+    </div>
+
+    <script>
+      // Função para copiar o código para a área de transferência
+      function copyCode(elementId, buttonElement) {
+        const codeText = document.getElementById(elementId).innerText;
+        const tempTextArea = document.createElement("textarea");
+        tempTextArea.value = codeText;
+        document.body.appendChild(tempTextArea);
+        tempTextArea.select();
+        document.execCommand("copy");
+        document.body.removeChild(tempTextArea);
+
+        const originalText = buttonElement.innerText;
+        buttonElement.innerText = "Copiado!";
+        buttonElement.classList.remove("bg-blue-500", "hover:bg-blue-600");
+        buttonElement.classList.add("bg-green-500");
+        setTimeout(() => {
+          buttonElement.innerText = originalText;
+          buttonElement.classList.remove("bg-green-500");
+          buttonElement.classList.add("bg-blue-500", "hover:bg-blue-600");
+        }, 2000);
+      }
+
+      document.addEventListener("DOMContentLoaded", () => {
+        // --- Lógica do Cronômetro ---
+        const display = document.getElementById("stopwatch-display");
+        const startBtn = document.getElementById("startBtn");
+        const stopBtn = document.getElementById("stopBtn");
+        const resetBtn = document.getElementById("resetBtn");
+        let startTime,
+          elapsedTime = 0,
+          timerInterval;
+        function formatTime(ms) {
+          const d = new Date(ms);
+          return `${String(d.getUTCMinutes()).padStart(2, "0")}:${String(
+            d.getUTCSeconds()
+          ).padStart(2, "0")}:${String(d.getUTCMilliseconds())
+            .padStart(3, "0")
+            .slice(0, 2)}`;
+        }
+        if (startBtn) {
+          startBtn.addEventListener("click", () => {
+            startTime = Date.now() - elapsedTime;
+            timerInterval = setInterval(() => {
+              elapsedTime = Date.now() - startTime;
+              display.textContent = formatTime(elapsedTime);
+            }, 10);
+            startBtn.disabled = true;
+            stopBtn.disabled = false;
+          });
+          stopBtn.addEventListener("click", () => {
+            clearInterval(timerInterval);
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+          });
+          resetBtn.addEventListener("click", () => {
+            clearInterval(timerInterval);
+            elapsedTime = 0;
+            display.textContent = "00:00:00";
+            startBtn.disabled = false;
+            stopBtn.disabled = true;
+          });
+          stopBtn.disabled = true;
+        }
+
+        // --- Lógica do Accordion ---
+        document.querySelectorAll(".accordion-button").forEach((acc) => {
+          acc.addEventListener("click", function () {
+            this.classList.toggle("active");
+            const panel = this.nextElementSibling;
+            panel.style.maxHeight = panel.style.maxHeight
+              ? null
+              : panel.scrollHeight + "px";
+          });
+        });
+
+        // --- Lógica da Navbar Responsiva ---
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        if (mobileMenuButton)
+          mobileMenuButton.addEventListener("click", () =>
+            mobileMenu.classList.toggle("hidden")
+          );
+
+        // --- Lógica do Modal ---
+        const openModalBtn = document.getElementById("openModalBtn");
+        const closeModalBtn = document.getElementById("closeModalBtn");
+        const modalBackdrop = document.getElementById("modal-backdrop");
+        const modal = document.getElementById("modal");
+        const openModal = () => {
+          modalBackdrop.classList.remove("hidden");
+          modal.classList.remove("hidden");
+        };
+        const closeModal = () => {
+          modalBackdrop.classList.add("hidden");
+          modal.classList.add("hidden");
+        };
+        if (openModalBtn) {
+          openModalBtn.addEventListener("click", openModal);
+          closeModalBtn.addEventListener("click", closeModal);
+          modalBackdrop.addEventListener("click", closeModal);
+        }
+
+        // --- Lógica do Toast ---
+        const toastContainer = document.getElementById("toast-container");
+        const showToastBtn = document.getElementById("showToastBtn");
+        function showToast(message, duration = 3000) {
+          const toast = document.createElement("div");
+          toast.className =
+            "toast bg-green-500 text-white py-2 px-4 rounded-lg shadow-lg";
+          toast.textContent = message;
+          toastContainer.appendChild(toast);
+          setTimeout(() => toast.classList.add("show"), 10);
+          setTimeout(() => {
+            toast.classList.remove("show");
+            toast.addEventListener("transitionend", () => toast.remove());
+          }, duration);
+        }
+        if (showToastBtn)
+          showToastBtn.addEventListener("click", () =>
+            showToast("Operação realizada com sucesso!")
+          );
+
+        // --- Lógica do Card 3D ---
+        document.querySelectorAll(".card-3d-container").forEach((container) => {
+          const card = container.querySelector(".card-3d");
+          container.addEventListener("mousemove", (e) => {
+            const { left, top, width, height } =
+              container.getBoundingClientRect();
+            const x = e.clientX - left;
+            const y = e.clientY - top;
+            const rotateX = (y / height - 0.5) * -30;
+            const rotateY = (x / width - 0.5) * 30;
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+          });
+          container.addEventListener("mouseleave", () => {
+            card.style.transform = "rotateX(0) rotateY(0)";
+          });
+        });
+
+        // --- Lógica do Carrossel ---
+        const carouselSlides = document.getElementById("carousel-slides");
+        if (carouselSlides) {
+          const prevButton = document.getElementById("carousel-prev");
+          const nextButton = document.getElementById("carousel-next");
+          const slideCount = carouselSlides.children.length;
+          let currentIndex = 0;
+          const goToSlide = (index) => {
+            if (index < 0) index = slideCount - 1;
+            else if (index >= slideCount) index = 0;
+            carouselSlides.style.transform = `translateX(-${index * 100}%)`;
+            currentIndex = index;
+          };
+          prevButton.addEventListener("click", () =>
+            goToSlide(currentIndex - 1)
+          );
+          nextButton.addEventListener("click", () =>
+            goToSlide(currentIndex + 1)
+          );
+        }
+      });
+    </script>
+  </body>
+</html>
